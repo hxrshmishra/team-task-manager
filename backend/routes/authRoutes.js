@@ -1,11 +1,23 @@
 const router = require('express').Router();
-const User = require('../models/User');
-const authMiddleware = require('../middleware/authMiddleware');
 
 const {
   signup,
   login,
 } = require('../controllers/authController');
+
+const User = require('../models/User');
+
+const authMiddleware = require('../middleware/authMiddleware');
+
+
+// AUTH ROUTES
+
+router.post('/signup', signup);
+
+router.post('/login', login);
+
+
+// GET USERS ROUTE
 
 router.get(
   '/users',
@@ -29,9 +41,5 @@ router.get(
     }
   }
 );
-
-router.post('/signup', signup);
-
-router.post('/login', login);
 
 module.exports = router;
