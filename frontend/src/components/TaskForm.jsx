@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import API from '../api/axios';
 
 function TaskForm({ fetchTasks }) {
@@ -7,6 +7,32 @@ function TaskForm({ fetchTasks }) {
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('medium');
   const [assignedTo, setAssignedTo] = useState('');
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+
+    fetchUsers();
+
+  }, []);
+
+  const fetchUsers = async () => {
+
+    try {
+
+      const res = await API.get('/auth/users');
+
+      const members = res.data.filter(
+        (user) => user.role === 'member'
+      );
+
+      setUsers(members);
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
 
   const createTask = async (e) => {
 
@@ -90,15 +116,31 @@ function TaskForm({ fetchTasks }) {
 
         </select>
 
-        <input
-          type="text"
-          placeholder="Assigned User ID"
+        <select
           value={assignedTo}
           onChange={(e) =>
             setAssignedTo(e.target.value)
           }
           className="w-full border border-slate-300 rounded-lg px-4 py-3"
-        />
+        >
+
+          <option value="">
+            Select Team Member
+          </option>
+
+          {
+            users.map((user) => (
+
+              <option
+                key={user._id}
+                value={user._id}
+              >
+                {user.name}
+              </option>
+            ))
+          }
+
+        </select>
 
         <button
           type="submit"
