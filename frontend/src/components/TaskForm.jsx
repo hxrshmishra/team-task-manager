@@ -21,11 +21,9 @@ function TaskForm({ fetchTasks }) {
         assignedTo,
       });
 
-      alert('Task Created');
-
       setTitle('');
       setDescription('');
-      setPriority('');
+      setPriority('medium');
       setAssignedTo('');
 
       fetchTasks();
@@ -39,26 +37,27 @@ function TaskForm({ fetchTasks }) {
   };
 
   return (
-    <div style={{
-      border: '1px solid gray',
-      padding: '20px',
-      marginBottom: '20px',
-    }}>
 
-      <h2>Create Task</h2>
+    <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
 
-      <form onSubmit={createTask}>
+      <h2 className="text-2xl font-bold mb-5">
+        Create Task
+      </h2>
+
+      <form
+        onSubmit={createTask}
+        className="space-y-4"
+      >
 
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Task Title"
           value={title}
           onChange={(e) =>
             setTitle(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <textarea
           placeholder="Description"
@@ -66,22 +65,30 @@ function TaskForm({ fetchTasks }) {
           onChange={(e) =>
             setDescription(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <select
           value={priority}
           onChange={(e) =>
             setPriority(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         >
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
 
-        <br /><br />
+          <option value="low">
+            Low Priority
+          </option>
+
+          <option value="medium">
+            Medium Priority
+          </option>
+
+          <option value="high">
+            High Priority
+          </option>
+
+        </select>
 
         <input
           type="text"
@@ -90,11 +97,13 @@ function TaskForm({ fetchTasks }) {
           onChange={(e) =>
             setAssignedTo(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         />
 
-        <br /><br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-semibold"
+        >
           Create Task
         </button>
 

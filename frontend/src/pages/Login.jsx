@@ -17,57 +17,59 @@ function Login() {
       });
 
       localStorage.setItem('token', res.data.token);
-
-      localStorage.setItem(
-        'role',
-        res.data.user.role
-        );
+      localStorage.setItem('role', res.data.user.role);
 
       window.location.reload();
-
-      console.log(res.data);
 
     } catch (error) {
 
       console.log(error);
-
       alert('Login Failed');
     }
   };
 
   return (
-    <div style={{ padding: '40px' }}>
-      <h1>Login</h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-700 flex justify-center items-center px-4">
 
-      <form onSubmit={handleLogin}>
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8">
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-        />
+        <h1 className="text-4xl font-bold text-center mb-2 text-slate-800">
+          Welcome Back
+        </h1>
 
-        <br /><br />
+        <p className="text-center text-slate-500 mb-8">
+          Login to continue
+        </p>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+        <form onSubmit={handleLogin} className="space-y-5">
 
-        <br /><br />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
 
-        <button type="submit">
-          Login
-        </button>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
 
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-lg font-semibold text-lg"
+          >
+            Login
+          </button>
+
+        </form>
+
+      </div>
+
     </div>
   );
 }
