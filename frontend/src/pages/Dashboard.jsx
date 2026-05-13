@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import TaskForm from '../components/TaskForm';
 import { useEffect, useState } from 'react';
 import API from '../api/axios';
+import Projects from './Projects';
 
 function Dashboard() {
 
@@ -155,5 +156,7 @@ function Dashboard() {
     </>
   );
 }
+
+<Projects />
 
 export default Dashboard;
