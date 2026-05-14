@@ -22,6 +22,8 @@ function TaskForm({ fetchTasks }) {
 
       const res = await API.get('/auth/users');
 
+      console.log(res.data);
+
       const members = res.data.filter(
         (user) => user.role === 'member'
       );
