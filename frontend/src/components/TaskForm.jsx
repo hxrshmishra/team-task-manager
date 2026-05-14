@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import API from '../api/axios';
 
 function TaskForm({ fetchTasks }) {
@@ -7,6 +7,32 @@ function TaskForm({ fetchTasks }) {
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('medium');
   const [assignedTo, setAssignedTo] = useState('');
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+
+    fetchUsers();
+
+  }, []);
+
+  const fetchUsers = async () => {
+
+    try {
+
+      const res = await API.get('/auth/users');
+
+      const members = res.data.filter(
+        (user) => user.role === 'member'
+      );
+
+      setUsers(members);
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
 
   const createTask = async (e) => {
 
@@ -21,11 +47,9 @@ function TaskForm({ fetchTasks }) {
         assignedTo,
       });
 
-      alert('Task Created');
-
       setTitle('');
       setDescription('');
-      setPriority('');
+      setPriority('medium');
       setAssignedTo('');
 
       fetchTasks();
@@ -39,26 +63,27 @@ function TaskForm({ fetchTasks }) {
   };
 
   return (
-    <div style={{
-      border: '1px solid gray',
-      padding: '20px',
-      marginBottom: '20px',
-    }}>
 
-      <h2>Create Task</h2>
+    <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
 
-      <form onSubmit={createTask}>
+      <h2 className="text-2xl font-bold mb-5">
+        Create Task
+      </h2>
+
+      <form
+        onSubmit={createTask}
+        className="space-y-4"
+      >
 
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Task Title"
           value={title}
           onChange={(e) =>
             setTitle(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <textarea
           placeholder="Description"
@@ -66,35 +91,61 @@ function TaskForm({ fetchTasks }) {
           onChange={(e) =>
             setDescription(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <select
           value={priority}
           onChange={(e) =>
             setPriority(e.target.value)
           }
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
         >
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
+
+          <option value="low">
+            Low Priority
+          </option>
+
+          <option value="medium">
+            Medium Priority
+          </option>
+
+          <option value="high">
+            High Priority
+          </option>
+
         </select>
 
-        <br /><br />
-
-        <input
-          type="text"
-          placeholder="Assigned User ID"
+        <select
           value={assignedTo}
           onChange={(e) =>
             setAssignedTo(e.target.value)
           }
-        />
+          className="w-full border border-slate-300 rounded-lg px-4 py-3"
+        >
 
-        <br /><br />
+          <option value="">
+            Select Team Member
+          </option>
 
-        <button type="submit">
+          {
+            users.map((user) => (
+
+              <option
+                key={user._id}
+                value={user._id}
+              >
+                {user.name}
+              </option>
+            ))
+          }
+
+        </select>
+
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-semibold"
+        >
           Create Task
         </button>
 
