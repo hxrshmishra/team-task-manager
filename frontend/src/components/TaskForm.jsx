@@ -24,7 +24,11 @@ function TaskForm({ fetchTasks }) {
 
       console.log(res.data);
 
-      setUsers(res.data);
+      const members = res.data.filter(
+      (user) => user.role === 'member'
+      );
+
+      setUsers(members);
 
     } catch (error) {
 
